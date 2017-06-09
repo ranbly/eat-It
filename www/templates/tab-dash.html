@@ -1,0 +1,254 @@
+<ion-view view-title="잇잇">
+
+  <!-- sub Header -->
+  <ion-content class="sub-header front" scroll="false">
+    <div class="main-header">
+      <div class="row">
+        <div class="col text-center col-center">
+          <button ng-click="openModal()" class="button button-clear button-dark custom-btn-header col-center">
+            필터
+          </button>
+        </div>
+        <div class="col col-50 text-center col-center">
+          <button class="button button-clear button-dark custom-btn-header" ng-click="allMainFoods()">
+            모두보기
+          </button>
+        </div>
+        <div class="col text-center col-center">
+          <button class="button button-clear button-dark custom-btn-header" ng-click="openModal2()">
+            메뉴추가
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+  <!-- sub Header End -->
+
+
+  <ion-content class="padding" scroll="true" style="margin-top: 40px">
+
+    <!-- 필터 모달 -->
+    <script id="my-modal.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar>
+          <h1 class="title">메뉴 필터</h1>
+          <button class="ion-close-round button button-clear button-dark" ng-click="closeModal()"></button>
+        </ion-header-bar>
+        <ion-content class="filter-modal">
+          <div>
+            <h5 class="gray">카테고리</h5>
+
+            <div ng-init="categories = getCategoryGroups()">
+              <div class="custom-chbox" ng-repeat="category in categories">
+                <b>
+                  <ion-checkbox ng-change="filterValueChange()" type="checkbox" ng-model="data.filterValues[category]">
+                    {{category}}
+                  </ion-checkbox>
+                </b>
+              </div>
+            </div>
+
+            <!--<div ng-init="(mainFoods | groupBy)">-->
+            <!--<div ng-repeat="m in group" style="width:100%">-->
+            <!--<b><input type="checkbox" ng-model="useMakes[$index]"/>{{m}}</b>-->
+            <!--</div>-->
+            <!--</div>-->
+          </div>
+
+          <div>
+            <h5 class="gray">지역 설정</h5>
+            <h5 class="inline pupple vertical-bt">내 위치 켜기</h5>
+            <h6 class="inline white-gray vertical-bt">현재 위치에 있는 음식점들을 검색합니다</h6>
+
+
+            <label class="toggle toggle-balacned float-right">
+              <input type="checkbox">
+
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+
+
+            <h5 class="pupple">위치 직접 입력</h5>
+            <label class="item item-input custom-input">
+              <input type="text" placeholder="검색할 위치를 입력하세요. ex)홍대,강남대">
+            </label>
+          </div>
+        </ion-content>
+        <ion-footer-bar class="bar-royal">
+
+          <div class="buttons">
+            <button class="button">원래대로</button>
+          </div>
+          <div class="buttons ">
+            <button class="button icon float-right right" ng-click="closeModal()">적용</button>
+          </div>
+
+        </ion-footer-bar>
+      </ion-modal-view>
+    </script>
+    <!-- 필터 모달 End -->
+
+    <!-- 메뉴 추가 모달 -->
+    <script id="my-modal2.html" type="text/ng-template">
+      <ion-modal-view>
+        <ion-header-bar>
+          <h1 class="title">메뉴 추가</h1>
+          <button class="ion-close-round button button-clear button-dark" ng-click="closeModal2()"></button>
+        </ion-header-bar>
+        <ion-content class="filter-modal">
+          <div>
+            <h5>카테고리</h5>
+
+            <ion-list>
+            <ion-radio id="kf" name="foodname" class="custom-chbox" data-ng-true-value="2" ng-click="radioclick(1)"
+                       ng-model="filter">한식
+            </ion-radio>
+              <ion-radio id="cf" name="foodname" class="custom-chbox" data-ng-true-value="3" ng-click="radioclick(2)"
+                         ng-model="filter">중식
+              </ion-radio>
+            </ion-radio>
+            <ion-radio id="jf" name="foodname" class="custom-chbox" data-ng-true-value="4"ng-click="radioclick(3)"
+                       ng-model="filter" >일식
+            </ion-radio>
+            <ion-radio id="af" name="foodname" class="custom-chbox" data-ng-true-value="5"ng-click="radioclick(4)"
+                       ng-model="filter">양식
+            </ion-radio>
+            <ion-radio id="df" name="foodname" class="custom-chbox" data-ng-true-value="6"ng-click="radioclick(5)"
+                       ng-model="filter" >디저트
+            </ion-radio>
+
+            </ion-list>
+
+          </div>
+
+          <div>
+              <div class="track">
+                <div class="handle"></div>
+              </div>
+            </label>
+            <h5 class="pupple">추가할 음식 이름</h5>
+            <label class="item item-input custom-input">
+              <input class="" type="text" ng-model="data.newFood" placeholder="음식을 입력하세요. ex)짬뽕, 짜장면"><br>
+            </label>
+
+
+          </div>
+        </ion-content>
+        <ion-footer-bar class="bar-royal">
+          <div class="buttons ">
+            <button class="button icon float-right right" ng-click="addItem(); closeModal2()">적용</button>
+
+          </div>
+
+        </ion-footer-bar>
+      </ion-modal-view>
+    </script>
+    <!-- 메뉴 추가 모달 End2 -->
+
+    <script id="templates/home.html" type="text/ng-template">
+      <ion-view view-title="Home">
+        <ion-content class="padding">
+          <p>
+            <a class="button icon icon-right ion-chevron-right" href="#/tab/facts">Scientific Facts</a>
+          </p>
+        </ion-content>
+      </ion-view>
+    </script>
+
+    <div ng-repeat="mainFood in mainFoods"
+         type="item-text-wrap">
+      <div class="menu-list list-child">
+        <div class="row" ng-if="$even">
+          <div class="col col-50" ng-repeat="main in [mainFoods[$index], mainFoods[$index+1]]">
+            <a href="#/tab/dash/deep/{{main.foodNum}}">
+              <div class="main-content-sumnail" ng-style="{ 'background-image': 'url(' + main.sumnailImg+')'}">
+              </div>
+              <div class="main-content-title">
+                <h5 class="inline">{{main.food}}</h5>
+                <h6 class="inline float-right">{{main.category}}</h6>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </ion-content>
+
+
+</ion-view>
+
+<!-- 잇잇 버튼 Start -->
+<ion-content scroll="false">
+  <div class="float-button" ng-click="openModal3()">
+    <span class="height-fix">
+    <a class="content">
+      <i class="ion-ios-arrow-up"> </i>
+    </a>
+    </span>
+  </div>
+</ion-content>
+
+<!-- 잇잇 모달 -->
+<script id="eat-it.html" type="text/ng-template">
+  <ion-modal-view>
+    <ion-header-bar>
+      <h1 class="title">그냥 먹을것 좀 골라줘</h1>
+      <button class="ion-close-round button button-clear button-dark" ng-click="closeModal3()"></button>
+    </ion-header-bar>
+    <ion-content class="filter-modal">
+      <div>
+        <h5 class="gray">카테고리</h5>
+
+        <div ng-init="random_categories = getCategoryGroups()">
+          <div class="custom-chbox" ng-repeat="random_category in random_categories">
+            <b>
+              <ion-checkbox ng-change="EatfilterValueChange()" type="checkbox"
+                            ng-model="data.filterValuesEat[random_category]">
+                {{random_category}}
+              </ion-checkbox>
+            </b>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h5 class="gray">지역 설정</h5>
+        <h5 class="inline pupple vertical-bt">내 위치 켜기</h5>
+        <h6 class="inline white-gray vertical-bt">현재 위치에 있는 음식점들을 검색합니다</h6>
+
+
+        <label class="toggle toggle-balacned float-right">
+          <input ng-model="data.uselocation" ng-change="changeLocationOption()" type="checkbox">
+
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+        <h5 class="pupple">위치 직접 입력</h5>
+        <label class="item item-input custom-input">
+          <input type="text" placeholder="검색할 위치를 입력하세요. ex)홍대,강남대">
+        </label>
+      </div>
+    </ion-content>
+    <ion-footer-bar class="bar-royal">
+
+      <div class="buttons">
+        <button class="button">원래대로</button>
+      </div>
+      <div class="buttons">
+        <a href="#/tab/dash/random">
+          <button class="button icon float-right right" ng-click="closeModal3()">골라줘</button>
+        </a>
+      </div>
+
+    </ion-footer-bar>
+  </ion-modal-view>
+</script>
+<!-- 잇잇 모달 End -->
+
+<!-- 잇잇 버튼 End -->
+

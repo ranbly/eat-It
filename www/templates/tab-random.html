@@ -1,0 +1,38 @@
+<ion-view view-title="당첨된 메뉴">
+  <ion-content>
+
+
+    <h5 style="padding-left: 12px">제가 선택해 줄게요! {{randomFoods.food}}을(를) 먹으세요</h5>
+    <div class="col random-content">
+      <div class="random-content-sumnail" ng-style="{ 'background-image': 'url(' + randomFoods.sumnailImg+')'}">
+      </div>
+      <div class="main-content-title">
+        <h4 class="inline">{{randomFoods.food}}</h4>
+        <h6 class="inline float-right">{{randomFoods.category}}</h6>
+      </div>
+    </div>
+
+    <h6 class="inline detail-headerline detail-header">현재 위치를 기반으로한 검색 결과입니다</h6>
+    <div class="button-inline my-pd">
+      <button class="button button-clear button-royal search-result-notice vertical-md">
+        <img src="../img/ic-gps-location.png" class="img-button vertical-md" width="18dp" style="padding-right: 5px" />내위치
+      </button>
+      <button class="button button-clear button-stable search-result-notice" ng-click="showRandomPopup()">
+        변경
+      </button>
+    </div>
+
+    <ion-list ng-repeat="randomItem in randomItems">
+      <a class="item item-thumbnail-left location-icon" href="#/tab/dash/detail/{{randomItem.index}}">
+        <img ng-src="{{randomItem.thumbnail}}">
+        <h2>{{randomItem.title}}</h2>
+        <p>{{randomItem.content}}</p>
+      </a>
+    </ion-list>
+
+    <ion-infinite-scroll on-infinite="search()"
+                         distance="1%"></ion-infinite-scroll>
+  </ion-content>
+
+  </ion-content>
+</ion-view>

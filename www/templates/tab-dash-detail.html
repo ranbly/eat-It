@@ -1,0 +1,30 @@
+<ion-view view-title="{{dashDetail.food}}">
+  <ion-content>
+
+
+    <h6 class="inline detail-header">현재 위치를 기반으로한 검색 결과입니다</h6>
+
+    <div class="button-inline my-pd">
+      <button ng-click="setUseLocation()" class="button button-clear button-royal search-result-notice vertical-md">
+        <img src="../img/ic-gps-location.png" class="img-button vertical-md"
+             width="18dp" style="padding-right: 5px"/>내위치
+      </button>
+      <button class="button button-clear button-stable search-result-notice" ng-click="showPopup()">
+        변경
+      </button>
+    </div>
+
+    <ion-list ng-repeat="resultItem in resultItems">
+      <a class="item item-thumbnail-left location-icon" href="#/tab/dash/detail/{{resultItem.index}}">
+        <img ng-src="{{resultItem.thumbnail}}"/>
+
+        <h2>{{resultItem.title}}</h2>
+
+        <p>{{resultItem.content}}</p>
+      </a>
+    </ion-list>
+
+    <ion-infinite-scroll on-infinite="search()"
+                         distance="1%"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

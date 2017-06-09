@@ -1,0 +1,15 @@
+{
+  "name": "myApp",
+  "app_id": "",
+
+  "proxies": [
+  {
+      "path":"/naver",
+      "proxyUrl":"https://m.search.naver.com/search.naver/"
+  },
+  {
+    "path":"/blog",
+    "proxyUrl": "http://m.blog.naver.com/"
+  }
+  ]
+}

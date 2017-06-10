@@ -1,5 +1,6 @@
 eat-it application
 =============
+---------------------------------------
 
-Food recommended HybridApp (AngularJS + Ionic Framework)
--------------
+*Food recommended HybridApp (AngularJS + Ionic Framework)
+
